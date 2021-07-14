@@ -5,8 +5,8 @@ RUN apk add --update openssh borgbackup && \
 
 EXPOSE 22
 
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /bin/entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/entrypoint.sh"]
 
-CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config"]c
+CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config"]
