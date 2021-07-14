@@ -12,3 +12,4 @@ services:
         volumes:
             - ./host_keys:/etc/ssh/host_keys/
             - ./authorized_keys:/etc/authorized_keys/
+            - ./backups:/backups
