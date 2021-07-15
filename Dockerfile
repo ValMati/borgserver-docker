@@ -5,7 +5,10 @@ RUN apk add --update openssh borgbackup && \
 
 EXPOSE 22
 
-COPY entrypoint.sh /bin/entrypoint.sh
+ENV BORG_GROUP='borggroup'
+ENV BORG_USER='borguser'
+
+COPY entrypoint.sh genauthkeys.sh /bin/
 
 ENTRYPOINT ["/bin/entrypoint.sh"]
 

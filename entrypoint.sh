@@ -37,8 +37,6 @@ sed -i 's/Subsystem\tsftp/#Subsystem\tsftp/g' ${CONFIG_FILE}
 
 # Create borggroup and borguser without password and home directory
 echo ">> Creating borg group and borg user"
-BORG_GROUP='borggroup'
-BORG_USER='borguser'
 if [[ -z "${GID}" ]] || [[ -z "${UID}" ]]; then
 	echo "ERROR: GUI or/and UID should have value"
 	exit 0
@@ -52,22 +50,7 @@ echo ">> Disabling password authentication"
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' ${CONFIG_FILE}
 
 # Set authorized keys
-echo ">> Configuring authorized keys"
-SOURCE_AUTH_KEYS='/etc/authorized_keys'
-DEST_AUTH_PATH='/home/'${BORG_USER}'/.ssh'
-DEST_AUTH_KEYS=${DEST_AUTH_PATH}'/authorized_keys'
-if [ ! -e "${DEST_AUTH_PATH}" ]; then
-	mkdir $DEST_AUTH_PATH
-	chown ${BORG_USER}:${BORG_GROUP} ${DEST_AUTH_PATH}
-fi
-for f in ${SOURCE_AUTH_KEYS}/*.pub; do
-	CLIENT_NAME=$(basename $f .pub)
-	CLIENT_BACKUP_PATH='/backups/'${CLIENT_NAME}
-	echo '# '${CLIENT_NAME} >> ${DEST_AUTH_KEYS}
-	echo -n 'command="cd '${CLIENT_BACKUP_PATH}'; borg serve --restrict-to-path '${CLIENT_BACKUP_PATH}'" ' >> ${DEST_AUTH_KEYS}
-	cat ${f} >> ${DEST_AUTH_KEYS}
-done
-chown ${BORG_USER}:${BORG_GROUP} ${DEST_AUTH_KEYS}
+source /bin/genauthkeys.sh
 
 # Remove MOTD
 echo ">> Removing MOTD"
