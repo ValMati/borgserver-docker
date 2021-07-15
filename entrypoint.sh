@@ -36,26 +36,38 @@ echo ">> Disabling SFTP"
 sed -i 's/Subsystem\tsftp/#Subsystem\tsftp/g' ${CONFIG_FILE}
 
 # Create borggroup and borguser without password and home directory
-echo ">> Creating borggroup and borguser"
+echo ">> Creating borg group and borg user"
+BORG_GROUP='borggroup'
+BORG_USER='borguser'
 if [[ -z "${GID}" ]] || [[ -z "${UID}" ]]; then
 	echo "ERROR: GUI or/and UID should have value"
 	exit 0
 fi
-addgroup borggroup -g ${GID}
-adduser borguser -G borggroup -u ${UID} > /dev/null
-echo "borguser:" | chpasswd
+addgroup ${BORG_GROUP} -g ${GID}
+adduser ${BORG_USER} -G ${BORG_GROUP} -u ${UID} > /dev/null
+echo "${BORG_USER}:" | chpasswd
 
 # Disable password authentication
 echo ">> Disabling password authentication"
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' ${CONFIG_FILE}
 
-# Set authorized keys path and permissions
-echo ">> Configuring authirized keys"
-sed -i 's/AuthorizedKeysFile\t.ssh\/authorized_keys/AuthorizedKeysFile\t\/etc\/authorized_keys\/%u/g' ${CONFIG_FILE}
-chmod 755 /etc/authorized_keys
-for f in $(find /etc/authorized_keys/ -type f -maxdepth 1); do
-	[ -w "${f}" ] && chmod 644 "${f}"
+# Set authorized keys
+echo ">> Configuring authorized keys"
+SOURCE_AUTH_KEYS='/etc/authorized_keys'
+DEST_AUTH_PATH='/home/'${BORG_USER}'/.ssh'
+DEST_AUTH_KEYS=${DEST_AUTH_PATH}'/authorized_keys'
+if [ ! -e "${DEST_AUTH_PATH}" ]; then
+	mkdir $DEST_AUTH_PATH
+	chown ${BORG_USER}:${BORG_GROUP} ${DEST_AUTH_PATH}
+fi
+for f in ${SOURCE_AUTH_KEYS}/*.pub; do
+	CLIENT_NAME=$(basename $f .pub)
+	CLIENT_BACKUP_PATH='/backups/'${CLIENT_NAME}
+	echo '# '${CLIENT_NAME} >> ${DEST_AUTH_KEYS}
+	echo -n 'command="cd '${CLIENT_BACKUP_PATH}'; borg serve --restrict-to-path '${CLIENT_BACKUP_PATH}'" ' >> ${DEST_AUTH_KEYS}
+	cat ${f} >> ${DEST_AUTH_KEYS}
 done
+chown ${BORG_USER}:${BORG_GROUP} ${DEST_AUTH_KEYS}
 
 # Remove MOTD
 echo ">> Removing MOTD"
