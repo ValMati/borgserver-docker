@@ -1,5 +1,7 @@
 # BORG SERVER
 
+[![.github/workflows/docker-publish.yml](https://github.com/ValMati/borgserver-docker/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/ValMati/borgserver-docker/actions/workflows/docker-publish.yml)
+
 Docker image with openSSH and BorgBackup installed and ready to use as a backup server over SSH.
 
 ## Image

@@ -6,7 +6,7 @@ generate_auth_keys() {
 	DEST_AUTH_PATH='/home/'${BORG_USER}'/.ssh'
 	DEST_AUTH_KEYS=${DEST_AUTH_PATH}'/authorized_keys'
 	if [ ! -e "${DEST_AUTH_PATH}" ]; then
-		mkdir $DEST_AUTH_PATH
+		mkdir ${DEST_AUTH_PATH}
 		chown ${BORG_USER}:${BORG_GROUP} ${DEST_AUTH_PATH}
 	else
 		rm ${DEST_AUTH_KEYS}
@@ -18,6 +18,10 @@ generate_auth_keys() {
 		echo '# '${CLIENT_NAME} >> ${DEST_AUTH_KEYS}
 		echo -n 'command="cd '${CLIENT_BACKUP_PATH}'; borg serve --restrict-to-path '${CLIENT_BACKUP_PATH}'" ' >> ${DEST_AUTH_KEYS}
 		cat ${f} >> ${DEST_AUTH_KEYS}
+		if [ ! -e ${CLIENT_BACKUP_PATH} ]; then
+			mkdir ${CLIENT_BACKUP_PATH}
+			chown ${BORG_USER}:${BORG_GROUP} ${CLIENT_BACKUP_PATH}
+		fi
 	done
 	chown ${BORG_USER}:${BORG_GROUP} ${DEST_AUTH_KEYS}
 }

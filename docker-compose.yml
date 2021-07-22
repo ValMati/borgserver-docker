@@ -11,5 +11,5 @@ services:
             - "2222:22"
         volumes:
             - ./host_keys:/etc/ssh/host_keys/
-            - ./authorized_keys:/etc/authorized_keys/
+            - ./authorized_keys:/etc/authorized_keys/:ro
             - ./backups:/backups
