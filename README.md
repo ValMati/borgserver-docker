@@ -4,7 +4,9 @@
 
 Docker image with openSSH and BorgBackup installed and ready to use as a backup server over SSH.
 
-## Image
+## Source Code & Image
+
+The code is available on [GitHub](https://github.com/ValMati/borgserver-docker)
 
 With each release a new version of the image is published on [DockerHub](https://hub.docker.com/r/valmati/borgserver)
 
@@ -40,7 +42,7 @@ When the image is executed, it is checked if these keys already exist and if don
 
 In this volumen the public keys of the clients must be accessible. In case you want to add or remove a cliente it is not necessary to stop and relaunch the container, just remove or add the publich keys and execute the following command:
 
-```
+```bash
 docker exec [ContainerName] /bin/genauthkeys.sh
 ```
 
