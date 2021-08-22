@@ -14,9 +14,13 @@ It is recommended to launch the image from a docker-compose as in the [example](
 
 As usual, it is necessary to indicate the image, in this case [valmati/borgserver:latest](https://hub.docker.com/r/valmati/borgserver).
 
+### Hostname
+
+It's important set the hostname because the host keys have information about this.
+
 ### Port
 
-The SSH server listens on port 22, but as this port is usually in use by the host it is recommended to use another one, in the example it is 2222. 
+The SSH server listens on port 22, but as this port is usually in use by the host it is recommended to use another one, in the example it is 2222.
 
 ### Environment
 

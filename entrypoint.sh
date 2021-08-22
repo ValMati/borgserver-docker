@@ -13,7 +13,7 @@ echo 'HostKey '${HOST_KEYS_DIR}'/ssh_host_dsa_key' >> ${CONFIG_FILE}
 echo 'HostKey '${HOST_KEYS_DIR}'/ssh_host_ecdsa_key' >> ${CONFIG_FILE}
 echo 'HostKey '${HOST_KEYS_DIR}'/ssh_host_ed25519_key' >> ${CONFIG_FILE}
 
-# Generate Host keys if is necesary
+# Generate host keys if is necesary
 echo ">> Generating host keys if is necesary"
 if [ ! -d ${HOST_KEYS_DIR} ]; then
     mkdir ${HOST_KEYS_DIR}

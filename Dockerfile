@@ -10,6 +10,6 @@ ENV BORG_USER='borguser'
 
 COPY entrypoint.sh genauthkeys.sh /bin/
 
-ENTRYPOINT ["/bin/entrypoint.sh"]
+ENTRYPOINT [ "/bin/entrypoint.sh" ]
 
-CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config"]
+CMD [ "/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config" ]

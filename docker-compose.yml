@@ -4,6 +4,7 @@ services:
     borgserver:
         container_name: borgserver
         image: valmati/borgserver
+        hostname: borgserver
         environment:
             - UID=1000
             - GID=1000
