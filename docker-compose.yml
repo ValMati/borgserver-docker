@@ -9,6 +9,7 @@ services:
             - UID=1000
             - GID=1000
             - TZ=Europe/Madrid
+            - RESTRICT_TO_PATH=true
         ports:
             - "2222:22"
         volumes:
