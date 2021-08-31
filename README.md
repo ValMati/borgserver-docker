@@ -26,7 +26,11 @@ The SSH server listens on port 22, but as this port is usually in use by the hos
 
 ### Environment
 
-Inside the container a user and a group are created (*borguser* and *borggroup*) that are the ones that will create the backups. The environment variables *UID* and *GID* are the ids with wich the user and the group are created. It is recommended that theses are those of the host user from witch we want to manage the backups later.
+| Variable | Description | Value |
+| --- | --- | --- |
+| UID / GUD | Inside the container a user and a group are created (*borguser* and *borggroup*) that are the ones that will create the backups. The environment variables *UID* and *GID* are the ids with wich the user and the group are created. It is recommended that theses are those of the host user from witch we want to manage the backups later. | 1000 / 1000 |
+| TZ        | Timezone | Europe/Madrid |
+| RESTRICT_TO_PATH  | Enable or disable the restriction to the client path. | true |
 
 ### Volumes
 
