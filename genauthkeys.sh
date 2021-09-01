@@ -16,7 +16,7 @@ generate_auth_keys() {
 		CLIENT_BACKUP_PATH='/backups/'${CLIENT_NAME}
         echo 'Adding client '${CLIENT_NAME}
 		echo '# '${CLIENT_NAME} >> ${DEST_AUTH_KEYS}
-		if [ ${RESTRICT_TO_PATH} ]; then
+		if [ ${RESTRICT_TO_PATH} == 'true' ]; then
 			echo -n 'command="cd '${CLIENT_BACKUP_PATH}'; borg serve --restrict-to-path '${CLIENT_BACKUP_PATH}'" ' >> ${DEST_AUTH_KEYS}
 			if [ ! -e ${CLIENT_BACKUP_PATH} ]; then
 				mkdir ${CLIENT_BACKUP_PATH}
