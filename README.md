@@ -30,7 +30,7 @@ The SSH server listens on port 22, but as this port is usually in use by the hos
 | --- | --- | --- |
 | UID / GUD | Inside the container a user and a group are created (*borguser* and *borggroup*) that are the ones that will create the backups. The environment variables *UID* and *GID* are the ids with wich the user and the group are created. It is recommended that theses are those of the host user from witch we want to manage the backups later. | 1000 / 1000 |
 | TZ        | Timezone | Europe/Madrid |
-| RESTRICT_TO_PATH  | Enable or disable the restriction to the client path. | true |
+| RESTRICT_TO_PATH  | Enable or disable the restriction to the client path. See [above](#Paths) for more details. | true |
 
 ### Volumes
 
@@ -54,8 +54,36 @@ docker exec [ContainerName] /bin/genauthkeys.sh
 
 This volume is where the backups of the differente clients will be generated. It is essential that this volume is not lost with the destruction of the container because in that case **we will lost our backups**.
 
+## Paths
+
+The exact behaviour within this volume '/backups' depends on the value of the RESTRICT_TO_PATH variable.
+
+* RESTRICT_TO_PATH=true: The base path is /backups/clientname, all backups must be created within this path and only relative paths may be used. For example to create the repo in /home/clientname/myfolder:
+
+```sh
+borg init --encryption=repokey ssh://borguser@serverIP/./myfolder 
+```
+
+* RESTRICT_TO_PATH=false: Then the base path is /backups/, but backups could be created in any other path.
+
+For example to create the backup in '/backups/myfolder'
+
+```sh
+borg init --encryption=repokey ssh://borguser@serverIP/./myfolder (relative path)
+
+borg init --encryption=repokey ssh://borguser@serverIP/backups/myfolder (absolute path)
+```
+
+To create backup in '/home/borguser/myfolder' (not recommended as destroying the container would result in losing the backup)
+
+```sh
+borg init --encryption=repokey ssh://borguser@serverIP/../home/borguser/myfolder (relative path)
+
+borg init --encryption=repokey ssh://borguser@serverIP/home/borguser/myfolder (absolute path)
+```
+
 ## Inspired on
 
-https://github.com/panubo/docker-sshd
+[https://github.com/panubo/docker-sshd](https://github.com/panubo/docker-sshd)
 
-https://practical-admin.com/blog/backups-using-borg/
+[https://practical-admin.com/blog/backups-using-borg/](https://practical-admin.com/blog/backups-using-borg/)s
