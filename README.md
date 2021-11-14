@@ -86,4 +86,4 @@ borg init --encryption=repokey ssh://borguser@serverIP/home/borguser/myfolder (a
 
 [https://github.com/panubo/docker-sshd](https://github.com/panubo/docker-sshd)
 
-[https://practical-admin.com/blog/backups-using-borg/](https://practical-admin.com/blog/backups-using-borg/)s
+[https://practical-admin.com/blog/backups-using-borg/](https://practical-admin.com/blog/backups-using-borg/)
