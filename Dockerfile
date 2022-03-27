@@ -1,4 +1,4 @@
-FROM alpine:3.15.0
+FROM alpine:3.15.2
 
 RUN apk add --update openssh borgbackup tzdata && \
     rm  -rf /tmp/* /var/cache/apk/*
