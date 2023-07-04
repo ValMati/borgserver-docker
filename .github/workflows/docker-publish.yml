@@ -37,8 +37,8 @@ jobs:
           fi
 
           # Set output parameters.
-          echo "tags=${TAGS}" >> $GITHUB_STATE
-          echo "docker_image::${DOCKER_IMAGE}" >> $GITHUB_STATE
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "docker_image=${DOCKER_IMAGE}" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
